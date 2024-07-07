@@ -1,28 +1,14 @@
-import { StyleSheet,View ,Text} from 'react-native';
+import { StyleSheet, View, Text, Image } from "react-native";
+import products from "../../../assets/data/products";
+import { SafeAreaView } from "react-native-safe-area-context";
+import ProductListItem from "../../components/ProductListItem";
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-
-export default function TabOneScreen() {
+const product = products[7];
+export default function MenuScreen() {
   return (
-    <View  className='flex justify-center items-center'>
-      <Text className='font-extrabold text-2xl text-red-600'>helllo</Text>
-    </View>
+    <SafeAreaView className="h-full w-full justify-center  p-3 bg-white">
+      <ProductListItem product={products[1]} />
+      <ProductListItem product={products[3]} />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
