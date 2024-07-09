@@ -5,6 +5,7 @@ const tintColorDark = "#fff";
 module.exports = {
   content: [
     "./src/app/**/*.{js,jsx,ts,tsx}",
+    "./src/app/(tabs)/menu/**/*.{js,jsx,ts,tsx}",
     "./src/**/*.{js,jsx,ts,tsx}",
     "./compontes/**/*.{js,jsx,ts,tsx}",
   ],
