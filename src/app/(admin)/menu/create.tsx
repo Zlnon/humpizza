@@ -1,9 +1,9 @@
-import { View, Text, TextInput, Image } from "react-native";
+import { View, Text, TextInput, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import Button from "../../../components/Button";
 import { defaultPizzaImage } from "../../../components/ProductListItem";
 import * as ImagePicker from "expo-image-picker";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
@@ -11,6 +11,8 @@ const CreateProductScreen = () => {
   const [errors, setErrors] = useState("");
   const [image, setImage] = useState<string | null>(null);
 
+  const { id } = useLocalSearchParams();
+  const isUpdating = !!id;
   const resetFields = () => {
     setName("");
     setPrice("");
@@ -33,7 +35,32 @@ const CreateProductScreen = () => {
     return true;
   };
 
+  const onDelete = () => {
+    console.warn("Delete!!");
+  };
+  const confirmDelete = () => {
+    Alert.alert("Confirm", "Are you sure you want to delete this product ?", [
+      { text: "Cancel" },
+      { text: "Delete", style: "destructive", onPress: onDelete },
+    ]);
+  };
+
+  const onSubmit = () => {
+    if (isUpdating) {
+    } else {
+      onCreate();
+    }
+  };
+
   const onCreate = () => {
+    if (!validateInput()) {
+      return;
+    }
+    console.warn("creating product");
+
+    resetFields();
+  };
+  const onUpdate = () => {
     if (!validateInput()) {
       return;
     }
@@ -57,7 +84,9 @@ const CreateProductScreen = () => {
   };
   return (
     <View className="flex justify-center p-3 bg-slate-50 h-full">
-      <Stack.Screen options={{ title: "Create Product" }} />
+      <Stack.Screen
+        options={{ title: isUpdating ? "Update product" : "Create Product" }}
+      />
       <Image
         source={{ uri: image || defaultPizzaImage }}
         className="w-[50%] aspect-square self-center "
@@ -86,7 +115,15 @@ const CreateProductScreen = () => {
         onChangeText={setPrice}
       />
       <Text className="text-base text-red-500">{errors}</Text>
-      <Button onPress={onCreate} text="Create" />
+      <Button onPress={onCreate} text={isUpdating ? "Update" : "Create"} />
+      {isUpdating && (
+        <Text
+          className="text-base font-bold text-red-500 self-center mt-2"
+          onPress={confirmDelete}
+        >
+          Delete
+        </Text>
+      )}
     </View>
   );
 };
